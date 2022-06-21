@@ -10,3 +10,28 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(billboard)
 ```
+```{r}
+x<-wiki_hot_100s |> 
+  as_tibble()
+x$artist |> 
+  fct_infreq() |>
+  levels()
+# Madonna is the most popular artist
+```
+
+```{r}
+#Watch out. Some artists appear at different times. See 'N Sync
+x |> 
+  group_by(artist) |> 
+  summarise(freq=n()) |> 
+  arrange(desc(freq))
+```
+
+```{r}
+temp2<-x |> 
+  group_by(artist) |> 
+  summarise(freq=n()) |> 
+  filter(freq==1)
+temp2
+```
+There are 'r nrow(temp2)' artists appearing only once
